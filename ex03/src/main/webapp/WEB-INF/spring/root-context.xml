@@ -40,6 +40,6 @@
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 	</bean>
 	
-	<mybatis-spring:scan base-package="com.momo.mapper"/>	
+	<mybatis-spring:scan base-package="com.peco.mapper"/>	
 		
 </beans>

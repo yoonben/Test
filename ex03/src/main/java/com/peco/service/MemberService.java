@@ -7,4 +7,5 @@ import com.peco.vo.MemberVo;
 @Service
 public interface MemberService {
 	public MemberVo login(MemberVo member);
+	public int insert(MemberVo member);
 }

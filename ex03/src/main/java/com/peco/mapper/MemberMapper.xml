@@ -8,4 +8,8 @@
   		select * from petMember where id = #{id}
   	</select>
   	
+  	<insert id="insert">
+		insert into PETMEMBER(m_id, id, pw, mname, mage, mphone,email, nickname) 
+		VALUES (SEQ_PETMEMBER_NUM.nextval,#{id},#{pw},#{mname},#{mage},#{mphone},#{email},#{nickname})
+	</insert>
   </mapper>

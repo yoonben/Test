@@ -10,7 +10,6 @@ public class MemberVo {
 	private String pw;
 	private String mname;
 	private String mage;
-	private String profile;
 	private String mphone;
 	private String email;
 	private String nickname;

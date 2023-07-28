@@ -57,6 +57,39 @@ public class LoginController {
 	
 	}
 	
+	@PostMapping("/register")
+	public @ResponseBody Map<String, Object> register(@RequestBody MemberVo member){
+		
+		try {
+			
+			int res = memberService.insert(member);
+			return responseWriteMap(res);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return responseMap("fail", "등록중 예외사항이 발생 하였습니다.");
+		}
+	}
+	
+	public Map<String, Object> responseMap(int res, String msg){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if(res > 0) {
+			map.put("result", "success");
+			map.put("msg", msg+" 되었습니다.");
+		}else {
+			map.put("result", "fail");
+			map.put("msg", msg+"중 예외가 발생하였습니다");
+
+		}
+		
+		return map;
+	}
+	
+	public Map<String, Object> responseWriteMap(int res){
+		return responseMap(res,"등록");
+	}
+	
 	public Map<String, Object> responseMap(String result, String msg){
 		Map<String, Object> map = new HashMap<String, Object>();
 		

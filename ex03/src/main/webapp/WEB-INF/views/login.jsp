@@ -36,6 +36,41 @@
 			// 요청
 			fetchPost('/peco/loginAction', obj, loginCheck)
 		})
+		
+		btnSignup.addEventListener('click', function(e){
+			// 기본 이벤트 제거
+			e.preventDefault();
+			
+			let id = signUpId.value;
+			let pw = signUpPw.value;
+			let name = signUpName.value;
+			let nickname = nickName.value
+			let emailValue  = email.value;
+			let mage = age.value;
+			let mphone = phone.value;
+			
+			obj = {
+					id : id
+					,pw : pw
+					,mname : name
+					,mage : mage
+					,mphone  : mphone
+					,email : emailValue 
+					,nickname : nickname
+			}
+			
+			
+			console.log('회원기입 obj : ', obj);
+			
+			fetchPost('/peco/register', obj, (map)=>{
+						if(map.result == 'success'){
+							location.href='/peco/login?msg='+map.msg;
+						}else{
+							signupMsg.innerHTML = map.msg;
+						}
+			});
+			
+		})
 	})
 	
 	
@@ -110,7 +145,7 @@
 
 	<!-- header -->
 	<%@include file="./commo/header.jsp"%>
-	
+
 	<!-- 로그인 -->
 	<div class="container">
 		<div class="row">
@@ -140,10 +175,10 @@
 						</div>
 						<button class="w-100 btn btn-lg btn-warning" required="required"
 							type="submit" id="btnLogin">Login</button>
-							
-							<a class="mt-5 mb-3 text-muted" id='btnSignupView' >회원가입</a>
+
+						<a class="mt-5 mb-3 text-muted" id='btnSignupView'>회원가입</a>
 					</form>
-		
+
 					<!-- ***** login End ***** -->
 
 					<!-- ***** 회원 가입 ***** -->
@@ -158,32 +193,31 @@
 							<input type="text" required="required" class="form-control"
 								id="signUpName"> <label for="signUpName">name</label>
 						</div>
-						
+
 						<div class="form-floating">
 							<input type="text" required="required" class="form-control"
 								id="signUpId"> <label for="signUpid">Id</label>
-						<button class="btn btn-lg btn-warning" required="required"
-							type="button" id="btnid">아이디 중복 검사</button>
+
+							<button class="btn btn-lg btn-warning" required="required"
+								type="button" id="btnid">아이디 중복 검사</button>
 						</div>
+
 						<div class="form-floating">
-						
 							<input type="password" required="required" class="form-control"
 								id="signUpPw"> <label for="signUpPw">Password</label>
 						</div>
+						
 						<div class="form-floating">
 							<input type="password" required="required" class="form-control"
 								id="pwCheck"> <label for="signUpPwCheck">Password
 								Check</label>
 						</div>
-						<div class="form-floating">
-							<input type="text" required="required" class="form-control"
-								id="name"> <label for="signUpPwCheck">Name</label>
-						</div>
+
 						<div class="form-floating">
 							<input type="text" required="required" class="form-control"
 								id="nickName"> <label for="signUpPwCheck">NickName</label>
 						</div>
-						
+
 						<div class="form-floating">
 							<input type="text" required="required" class="form-control"
 								id="age"> <label for="signUpPwCheck">Age</label>
@@ -194,7 +228,8 @@
 						</div>
 						<div class="form-floating">
 							<input type="text" required="required" class="form-control"
-								id="phone"> <label for="signUpPwCheck">Phone number</label>
+								id="phone"> <label for="signUpPwCheck">Phone
+								number</label>
 						</div>
 						<div class="form-floating">
 							<input type="file" required="required" class="form-control"
@@ -204,7 +239,7 @@
 
 						<button class="w-100 btn btn-lg btn-primary" type="submit"
 							id="btnSignup">회원가입</button>
-							<a class="mt-5 mb-3 text-muted" id='btnSigninView' >회원가입</a>
+						<a class="mt-5 mb-3 text-muted" id='btnSigninView'>회원가입</a>
 					</form>
 					<!-- ***** 회원가입 End ***** -->
 				</div>

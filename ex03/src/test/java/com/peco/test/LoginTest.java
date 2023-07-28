@@ -1,5 +1,6 @@
 package com.peco.test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assume.assumeNotNull;
 
 import org.junit.Test;
@@ -29,6 +30,24 @@ public class LoginTest {
 		System.out.println("========================"+member.getId());
 		memberMapper.login(member);
 
+	}
+	
+	@Test
+	public void insertTest() {
+		MemberVo member = new MemberVo();
+		
+		member.setId("test1");
+		member.setPw("1234");
+		member.setMname("홍갈동");
+		member.setMage("35");
+		member.setMphone("01056767573");
+		member.setEmail("test123@gmail.com");
+		member.setNickname("tester123");
+		
+		System.out.println("==================================");
+		
+		int res = memberMapper.insert(member);
+		assertEquals(1, res);
 	}
 	
 	

@@ -42,4 +42,20 @@ public class MemberServiceImpl implements MemberService{
 		return memberMapper.insert(member);
 	}
 
+
+
+	@Override
+	public int idCheck(MemberVo member) {
+		
+		return memberMapper.idCheck(member);
+	}
+
+
+
+	@Override
+	public int nicknameCheck(MemberVo member) {
+		// TODO Auto-generated method stub
+		return memberMapper.nicknameCheck(member);
+	}
+
 }

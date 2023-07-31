@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.peco.service.MailSendService;
 import com.peco.service.MemberService;
-import com.peco.vo.MemberVo;
+import com.peco.vo.MemberVO;
 
 import lombok.extern.log4j.Log4j;
 
@@ -39,7 +39,7 @@ public class LoginController {
 	}
 
 	@PostMapping("/loginAction")
-	public @ResponseBody Map<String, Object> loginAction(@RequestBody MemberVo member, Model model,
+	public @ResponseBody Map<String, Object> loginAction(@RequestBody MemberVO member, Model model,
 			HttpSession session) {
 
 		member = memberService.login(member);
@@ -59,7 +59,7 @@ public class LoginController {
 	}
 
 	@PostMapping("/register")
-	public @ResponseBody Map<String, Object> register(@RequestBody MemberVo member) {
+	public @ResponseBody Map<String, Object> register(@RequestBody MemberVO member) {
 
 		try {
 
@@ -73,7 +73,7 @@ public class LoginController {
 	}
 
 	@PostMapping("/idCheck")
-	public @ResponseBody Map<String, Object> idCheck(@RequestBody MemberVo member) {
+	public @ResponseBody Map<String, Object> idCheck(@RequestBody MemberVO member) {
 		int res = memberService.idCheck(member);
 
 		if (res == 0) {
@@ -85,7 +85,7 @@ public class LoginController {
 	}
 
 	@PostMapping("/nicknameCheck")
-	public @ResponseBody Map<String, Object> nicknameCheck(@RequestBody MemberVo member) {
+	public @ResponseBody Map<String, Object> nicknameCheck(@RequestBody MemberVO member) {
 		int res = memberService.nicknameCheck(member);
 
 		if (res == 0) {

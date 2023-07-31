@@ -2,12 +2,12 @@ package com.peco.service;
 
 import org.springframework.stereotype.Service;
 
-import com.peco.vo.MemberVo;
+import com.peco.vo.MemberVO;
 
 @Service
 public interface MemberService {
-	public MemberVo login(MemberVo member);
-	public int insert(MemberVo member);
-	public int idCheck(MemberVo member);
-	public int nicknameCheck(MemberVo member);
+	public MemberVO login(MemberVO member);
+	public int insert(MemberVO member);
+	public int idCheck(MemberVO member);
+	public int nicknameCheck(MemberVO member);
 }

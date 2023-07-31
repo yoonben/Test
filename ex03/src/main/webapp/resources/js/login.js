@@ -1,4 +1,6 @@
 window.addEventListener('load', function(){
+		
+		// 회원가입 로그인 화면 전환
 		btnSigninView.addEventListener('click',function(){
 	          signupForm.style.display = 'none';
 	          signinForm.style.display = '';
@@ -10,7 +12,7 @@ window.addEventListener('load', function(){
 	          
 	      	})
 		
-		
+		// 로그인 버튼
 		btnLogin.addEventListener('click', function(e){
 			// 기본 이벤트 제거
 			e.preventDefault();
@@ -26,6 +28,7 @@ window.addEventListener('load', function(){
 			fetchPost('/peco/loginAction', obj, loginCheck)
 		})
 		
+		// 회원가입 버튼
 		btnSignup.addEventListener('click', function(e){
 			// 기본 이벤트 제거
 			e.preventDefault();
@@ -45,7 +48,21 @@ window.addEventListener('load', function(){
 				return;
 			}
 			
-			// 아이디 중복 체크 확인
+			// 비밀번호 일치 확인
+			if(pwCheckRes.value != 1){
+				signupMsg.innerHTML = "비밀번호를 확인해주세요";
+				signUpPw.focus();
+				return;
+			}
+			
+			// 이메일 체크 확인
+			if(emailCheckRes.value != 1){
+				signupMsg.innerHTML = "이메일을 확인해주세요";
+				userEmail1.focus();
+				return;
+			}
+			
+			// 닉네임 체크 확인
 			if(nickNameRes.value != 1){
 				signupMsg.innerHTML = "닉네임을 확인해주세요";
 				nickName.focus();
@@ -56,7 +73,7 @@ window.addEventListener('load', function(){
 					id : id
 					,pw : pw
 					,mname : name
-					,mage : mage
+					,age : mage
 					,mphone  : mphone
 					,email : emailValue 
 					,nickname : nickname
@@ -75,6 +92,7 @@ window.addEventListener('load', function(){
 			
 		})
 		
+		// 아이디 체크 버튼
 		btnid.addEventListener('click', function(e){
 	
 			if(!signUpId.value){
@@ -100,6 +118,7 @@ window.addEventListener('load', function(){
 			
 		})
 		
+		// 닉네임 체크 버튼
 		btnNickName.addEventListener('click', function(e){
 	
 			if(!nickName.value){
@@ -125,6 +144,28 @@ window.addEventListener('load', function(){
 			
 		})
 		
+		pwCheck.addEventListener('blur', function(){
+			if(!signUpPw.value){
+				signupMsg.innerHTML = "비밀번호를 입력해주세요";
+				return;
+			}
+			if(!pwCheck.value){
+				signupMsg.innerHTML = "비밀번호 확인을 입력해주세요";
+				return;
+			}
+			if(signUpPw.value == pwCheck.value){
+				pwCheckRes.value = '1';
+				signupMsg.innerHTML = "비밀번호가 일치합니다";
+			}else{
+				signupMsg.innerHTML = "비밀번호가 일치하지 않습니다.";
+				signUpPw.focus();
+				pwCheckRes.value = '0';
+				pwCheck.value='';
+				
+			}
+		});
+		
+		// 이메일 인증
 		$('#mail-Check-Btn').click(function() {
 			const eamil = $('#userEmail1').val() + $('#userEmail2').val(); // 이메일 주소값 얻어오기!
 			console.log('완성된 이메일 : ' + eamil); // 이메일 오는지 확인
@@ -132,7 +173,7 @@ window.addEventListener('load', function(){
 			
 			$.ajax({
 				type : 'get',
-				url : '<c:url value ="/peco/mailCheck?email="/>'+eamil, // GET방식이라 Url 뒤에 email을 뭍힐수있다.
+				url : '/peco/mailCheck?email='+eamil, // GET방식이라 Url 뒤에 email을 뭍힐수있다.
 				success : function (data) {
 					console.log("data : " +  data);
 					checkInput.attr('disabled',false);
@@ -159,6 +200,7 @@ window.addEventListener('load', function(){
 		        $('#userEmail2').attr('onChange', 'this.selectedIndex = this.initialSelect');
 		        console.log('인증 성공 이메일 : ' + eamil);
 		        $('#email').val(eamil);
+		        $('#emailCheckRes').val('1');
 			}else{
 				$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
 				$resultMsg.css('color','red');

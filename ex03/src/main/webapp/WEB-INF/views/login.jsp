@@ -78,9 +78,13 @@
 						<div class="login-img">
 							<!-- 이미지 -->
 						</div>
+						
 						<!-- 회원 가입 체크 인풋 -->
-						<input type="text" id="idCheckRes">
-						<input type="text" id="nickNameRes">
+						<input type="hidden" id="idCheckRes">
+						<input type="hidden" id="nickNameRes">
+						<input type="text" id="pwCheckRes">
+						<input type="text" id="emailCheckRes">
+						
 						<h1 class="h3 mb-3 fw-normal">Please sign up</h1>
 						<div id="signupMsg"></div>
 						<div class="form-floating">
@@ -120,7 +124,7 @@
 
 						<div class="form-floating">
 							<%@include file="./emailCheck.jsp"%>
-							<input type="text" id="email">
+							<input type="hidden" id="email" type="hidden">
 						</div>
 
 						<div class="form-floating">

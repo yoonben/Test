@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.peco.mapper.MemberMapper;
-import com.peco.vo.MemberVo;
+import com.peco.vo.MemberVO;
 
 import lombok.extern.log4j.Log4j;
 
@@ -24,7 +24,7 @@ public class LoginTest {
 	@Test
 	public void test(){
 		assumeNotNull(memberMapper);
-		MemberVo member = new MemberVo();
+		MemberVO member = new MemberVO();
 		member.setId("test");
 		member.setPw("1234");
 		System.out.println("========================"+member.getId());
@@ -34,12 +34,12 @@ public class LoginTest {
 	
 	@Test
 	public void insertTest() {
-		MemberVo member = new MemberVo();
+		MemberVO member = new MemberVO();
 		
 		member.setId("test1");
 		member.setPw("1234");
 		member.setMname("홍갈동");
-		member.setMage("35");
+		member.setAge("35");
 		member.setMphone("01056767573");
 		member.setEmail("test123@gmail.com");
 		member.setNickname("tester123");

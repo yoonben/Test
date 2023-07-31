@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.peco.mapper.MemberMapper;
 import com.peco.service.MemberService;
-import com.peco.vo.MemberVo;
+import com.peco.vo.MemberVO;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -18,8 +18,8 @@ public class MemberServiceImpl implements MemberService{
 	BCryptPasswordEncoder encoder;
 	
 	@Override
-	public MemberVo login(MemberVo paramMember) {
-		MemberVo member = memberMapper.login(paramMember);
+	public MemberVO login(MemberVO paramMember) {
+		MemberVO member = memberMapper.login(paramMember);
 		
 		if(member != null) {
 			// 사용자가 입력한 비밀번호가 일치하는지 확인
@@ -35,7 +35,7 @@ public class MemberServiceImpl implements MemberService{
 	
 
 	@Override
-	public int insert(MemberVo member) {
+	public int insert(MemberVO member) {
 
 		member.setPw(encoder.encode(member.getPw()));
 		
@@ -45,7 +45,7 @@ public class MemberServiceImpl implements MemberService{
 
 
 	@Override
-	public int idCheck(MemberVo member) {
+	public int idCheck(MemberVO member) {
 		
 		return memberMapper.idCheck(member);
 	}
@@ -53,7 +53,7 @@ public class MemberServiceImpl implements MemberService{
 
 
 	@Override
-	public int nicknameCheck(MemberVo member) {
+	public int nicknameCheck(MemberVO member) {
 		// TODO Auto-generated method stub
 		return memberMapper.nicknameCheck(member);
 	}

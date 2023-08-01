@@ -80,11 +80,43 @@ window.addEventListener('load', function(){
 			}
 			
 			
+			
 			console.log('회원기입 obj : ', obj);
 			
 			fetchPost('/peco/register', obj, (map)=>{
 						if(map.result == 'success'){
-							location.href='/peco/login?msg='+map.msg;
+							document.querySelector('#m_id').value = map.m_id;
+							
+							let formData = new FormData(signupForm);
+							 
+							
+							console.log("formData : ", formData);
+							
+							for(var pair of formData.entries()){
+								console.log(pair);
+								if(typeof(pair[1]) == 'object'){
+									let fileName = pair[1].name;
+									let fileSize = pair[1].size;
+									// 파일 확장자, 크기 체크
+									// 서버에 전송 가능한 형식인지 확인
+									// 최대 전송가능한 용량을 초과하지 않는지
+									if(!checkExtension(fileName,fileSize)){
+										return false;
+									}
+									
+									console.log('fileName',pair[1].name);
+									console.log('fileSize',pair[1].size);
+								
+								}
+							}
+							
+							fetch('/peco/fileuploadActionFetch'
+									,{ 
+										method : 'post'
+										, body : formData
+							})
+							.then(response=>response.json())
+							.then(map => fileuploadRes(map));
 						}else{
 							signupMsg.innerHTML = map.msg;
 						}
@@ -167,13 +199,16 @@ window.addEventListener('load', function(){
 		
 		// 이메일 인증
 		$('#mail-Check-Btn').click(function() {
-			const eamil = $('#userEmail1').val() + $('#userEmail2').val(); // 이메일 주소값 얻어오기!
+			const eamil = $('#userEmail1').val() + $('#userEmail2').val(); // 이메일
+																			// 주소값
+																			// 얻어오기!
 			console.log('완성된 이메일 : ' + eamil); // 이메일 오는지 확인
-			const checkInput = $('.mail-check-input') // 인증번호 입력하는곳 
+			const checkInput = $('.mail-check-input') // 인증번호 입력하는곳
 			
 			$.ajax({
 				type : 'get',
-				url : '/peco/mailCheck?email='+eamil, // GET방식이라 Url 뒤에 email을 뭍힐수있다.
+				url : '/peco/mailCheck?email='+eamil, // GET방식이라 Url 뒤에 email을
+														// 뭍힐수있다.
 				success : function (data) {
 					console.log("data : " +  data);
 					checkInput.attr('disabled',false);
@@ -183,7 +218,7 @@ window.addEventListener('load', function(){
 			}); // end ajax
 		}); // end send eamil
 		
-		// 인증번호 비교 
+		// 인증번호 비교
 		// blur -> focus가 벗어나는 경우 발생
 		$('.mail-check-input').blur(function () {
 			const eamil = $('#userEmail1').val() + $('#userEmail2').val();
@@ -206,9 +241,19 @@ window.addEventListener('load', function(){
 				$resultMsg.css('color','red');
 			}
 		});
+		
+		
 	})
 	
-	
+	function fileuploadRes(map){
+		if(map.result == 'success'){
+			signupForm.style.display = 'none'; // signupForm 숨기기
+			signinForm.style.display = ''; // signinForm 보이기
+			alert(map.msg);
+		}else{
+			alert(map.msg);
+		}
+	}
 	
 	function loginCheck(map) {
 		
@@ -235,7 +280,25 @@ window.addEventListener('load', function(){
 			console.log('fetchGet',e);
 		}
 	}
-
+	
+	function checkExtension(fileName, fileSize) {
+		let MaxSize = 1024 * 1024 *10;
+		// .exe, .sh, .zip, .alz 끝나는 문자열
+		// 정규표현식 : 특정 규칙을 가진 문자열을 검색하거나 치환 할때 사용
+		let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+		if(MaxSize <= fileSize){
+			alert("파일 사이즈 초과");
+			return false;
+		}
+		
+		// 문자열에 정규식 패턴을 만족하는 값이 있으면 true, 없으면 ㄹ먀ㅣ
+		if(regex.test(fileName)){
+			alert("해당 종류의 파일은 업로드 할 수 없습니다");
+			return false;
+		}
+		return true;
+	}
+	
 	// post방식 요청
 	function fetchPost(url, obj, callback){
 		try{

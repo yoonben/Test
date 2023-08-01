@@ -82,9 +82,9 @@
 						<!-- 회원 가입 체크 인풋 -->
 						<input type="hidden" id="idCheckRes">
 						<input type="hidden" id="nickNameRes">
-						<input type="text" id="pwCheckRes">
-						<input type="text" id="emailCheckRes">
-						
+						<input type="hidden" id="pwCheckRes">
+						<input type="hidden" id="emailCheckRes">
+						<input type="text" name="m_id" id="m_id" value="">
 						<h1 class="h3 mb-3 fw-normal">Please sign up</h1>
 						<div id="signupMsg"></div>
 						<div class="form-floating">
@@ -131,8 +131,9 @@
 							<input type="text" class="form-control" id="phone"> <label
 								for="signUpPwCheck">Phone number</label>
 						</div>
+						
 						<div class="form-floating">
-							<input type="file" class="form-control" id="profile"> <label
+							<input type="file" class="form-control" id="files" name="files"> <label
 								for="signUpPwCheck">프로필첨부</label>
 						</div>
 

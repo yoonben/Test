@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.peco.controller.CommonRestController;
 import com.peco.service.MailSendService;
 import com.peco.service.MemberService;
 import com.peco.vo.MemberVO;
@@ -23,7 +24,7 @@ import lombok.extern.log4j.Log4j;
 @Controller
 @RequestMapping("/peco/*")
 @Log4j
-public class LoginController {
+public class LoginController extends CommonRestController{
 
 	@Autowired
 	MemberService memberService;
@@ -32,7 +33,7 @@ public class LoginController {
 	public String login() {
 		return "login";
 	}
-
+	
 	@GetMapping("/main")
 	public String main() {
 		return "main";
@@ -47,28 +48,35 @@ public class LoginController {
 			session.setAttribute("member", member);
 			session.setAttribute("userId", member.getId());
 			session.setAttribute("nickName", member.getNickname());
-			Map<String, Object> map = responseMap("success", "로그인 되엇습니다.");
+			Map<String, Object> map = responseMap(REST_SUCCESS, "로그인 되엇습니다.");
 			map.put("url", "/peco/main");
 
 			return map;
 		} else {
 
-			return responseMap("fail", "아이디와 비밀번호를 확인해주세요");
+			return responseMap(REST_FAIL, "아이디와 비밀번호를 확인해주세요");
 		}
 
 	}
 
 	@PostMapping("/register")
-	public @ResponseBody Map<String, Object> register(@RequestBody MemberVO member) {
+	public @ResponseBody Map<String, Object> register(@RequestBody MemberVO member, Model model) {
 
 		try {
 
 			int res = memberService.insert(member);
-			return responseWriteMap(res);
+			
+			member = memberService.login(member);
+			
+			Map<String, Object> map = responseWriteMap(res);
+			
+			map.put("m_id", member.getM_id());
+			
+			return map;
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return responseMap("fail", "등록중 예외사항이 발생 하였습니다.");
+			return responseMap(REST_FAIL, "등록중 예외사항이 발생 하였습니다.");
 		}
 	}
 
@@ -77,9 +85,9 @@ public class LoginController {
 		int res = memberService.idCheck(member);
 
 		if (res == 0) {
-			return responseMap("success", "사용가능한 아이디 입니다.");
+			return responseMap(REST_SUCCESS, "사용가능한 아이디 입니다.");
 		} else {
-			return responseMap("fail", "이미 사용중인 아이디 입니다.");
+			return responseMap(REST_FAIL, "이미 사용중인 아이디 입니다.");
 		}
 
 	}
@@ -89,41 +97,13 @@ public class LoginController {
 		int res = memberService.nicknameCheck(member);
 
 		if (res == 0) {
-			return responseMap("success", "사용가능한 닉네임 입니다.");
+			return responseMap(REST_SUCCESS, "사용가능한 닉네임 입니다.");
 		} else {
-			return responseMap("fail", "이미 사용중인 닉네임 입니다.");
+			return responseMap(REST_FAIL, "이미 사용중인 닉네임 입니다.");
 		}
 
 	}
 
-	public Map<String, Object> responseMap(int res, String msg) {
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		if (res > 0) {
-			map.put("result", "success");
-			map.put("msg", msg + " 되었습니다.");
-		} else {
-			map.put("result", "fail");
-			map.put("msg", msg + "중 예외가 발생하였습니다");
-
-		}
-
-		return map;
-	}
-
-	public Map<String, Object> responseWriteMap(int res) {
-		return responseMap(res, "등록");
-	}
-
-	public Map<String, Object> responseMap(String result, String msg) {
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		map.put("result", result);
-		map.put("msg", msg);
-
-		return map;
-	}
-	
 	@Autowired
 	private MailSendService mailService;
 	

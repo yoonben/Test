@@ -26,8 +26,8 @@ public class FileuploadServiceImpl implements FileuploadService{
 	FileuploadMapper mapper;
 
 	@Override
-	public int insert(FileuploadVO vo) {
-		return mapper.insert(vo);
+	public int insertProfile(FileuploadVO vo) {
+		return mapper.insertProfile(vo);
 	}
 	
 	
@@ -38,7 +38,7 @@ public class FileuploadServiceImpl implements FileuploadService{
 	 * @return
 	 * @throws Exception 
 	 */
-	public int fileupload(List<MultipartFile> files,String m_id) throws Exception {
+	public int Profileupload(List<MultipartFile> files,String m_id) throws Exception {
 		int insertRes = 0;
 		for(MultipartFile file : files) {
 			if(file.isEmpty()) {
@@ -57,14 +57,11 @@ public class FileuploadServiceImpl implements FileuploadService{
 				 * 파일이름이 중복되어 파일이 소실되지 않도록 uuid를 붙여서 저장
 				 */
 				UUID uuid = UUID.randomUUID();
-				String saveFileName = uuid+"_"+file.getOriginalFilename();
-				String uploadPath = getFolder();
-				// dir
-				// c:/upload/2023/7
-				// 년/월/일
+				String saveFileName = m_id+file.getOriginalFilename();
+				String uploadPath = getProfile();
 				
 				File sFile = new File(FileuploadController.ATTACHES_DIR
-						+uploadPath // 2023\07\18\
+						+uploadPath 
 						+saveFileName);
 				
 				// file(원본파일)을 sFile(저장 대상 파일)에 저장
@@ -96,7 +93,7 @@ public class FileuploadServiceImpl implements FileuploadService{
 				vo.setUploadpath(uploadPath);
 				vo.setUuid(uuid.toString());
 				
-				int res = insert(vo);
+				int res = insertProfile(vo);
 				
 				if(res>0) {
 					insertRes++;
@@ -117,10 +114,8 @@ public class FileuploadServiceImpl implements FileuploadService{
 	
 	// 중복 방지용
 	//		업로드 날짜를 폴더 이름으로 사용
-	public String getFolder() {
-		LocalDate currentDate = LocalDate.now();
-		String uploadPath = currentDate.toString().replace("-", File.separator)+ File.separator;
-		log.info("CurrentDate : " + currentDate);
+	public String getProfile() {
+		String uploadPath = "profile" + File.separator;
 		log.info("경로 : " + uploadPath);
 		
 		File saveDir = new File(FileuploadController.ATTACHES_DIR + uploadPath);

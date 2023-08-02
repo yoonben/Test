@@ -27,12 +27,6 @@ public class FileuploadController extends CommonRestController{
 	@Autowired
 	FileuploadService service;
 	
-	@GetMapping("/fileupload")
-	public String fileupload() {
-		return"fileupload";
-	}
-	
-	
 	/**
 	 * -전달된 파일이 없는경우
 	 * 
@@ -46,10 +40,10 @@ public class FileuploadController extends CommonRestController{
 	 * @return
 	 * @throws Exception 
 	 */
-	@PostMapping("/fileuploadActionFetch")
+	@PostMapping("/ProfileloadActionFetch")
 	public @ResponseBody Map<String, Object> fileuploadActionFetch(List<MultipartFile> files, String m_id, RedirectAttributes rttr) throws Exception {
 		log.info("fileuploadActionFetch");
-		int insertRes = service.fileupload(files, m_id);
+		int insertRes = service.Profileupload(files, m_id);
 		log.info("업로드 건수 : " + insertRes);
 		return responseMap("success", "회원가입되었습니다");
 

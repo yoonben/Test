@@ -3,6 +3,7 @@ package com.peco.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,9 +102,45 @@ public class LoginController extends CommonRestController{
 		} else {
 			return responseMap(REST_FAIL, "이미 사용중인 닉네임 입니다.");
 		}
-
+		
 	}
+	
+	@GetMapping("/naver_callback")
+	public String naverLogin_callback(HttpServletRequest request, HttpSession session
+										,Model model) {
+		 Map<String, String> naverData = memberService.naverLogin(request, model);
+		 
+		 MemberVO member = new MemberVO();
+		 
+		 member.setId(naverData.get("id"));
+		 
+		 int res = memberService.idCheck(member);
+		 
+		 if(res>0) {
+			System.out.println("======naver로그인=======");
+			member = memberService.apiLogin(member);
+			if(member == null) {
+				responseMap(REST_FAIL, "네이버 로그인중 오류가 발생하였습니다.");
+				
+				return "/login";
+			}
+			session.setAttribute("member", member);
+			session.setAttribute("userId", member.getId());
+			session.setAttribute("nickName", member.getNickname());
 
+			return "/main";
+
+		 }else {
+			 System.out.println("======naver회원가입=======");
+			 
+			 boolean showSignupForm = true; // 회원가입 폼을 보여줄지 여부를 결정하는 변수
+			 model.addAttribute("showSignupForm", showSignupForm);
+			 
+			 return "/login";
+		 }
+		
+	}
+	
 	@Autowired
 	private MailSendService mailService;
 	
@@ -114,7 +151,5 @@ public class LoginController extends CommonRestController{
 			System.out.println("이메일 인증 요청이 들어옴!");
 			System.out.println("이메일 인증 이메일 : " + email);
 			return mailService.joinEmail(email);
-			
-				
 		}
 }

@@ -10,7 +10,7 @@ import com.peco.vo.FileuploadVO;
 @Service
 public interface FileuploadService {
 	
-	int insert(FileuploadVO vo);
+	int insertProfile(FileuploadVO vo);
 
-	int fileupload(List<MultipartFile> files, String m_id) throws Exception;
+	int Profileupload(List<MultipartFile> files, String m_id) throws Exception;
 }

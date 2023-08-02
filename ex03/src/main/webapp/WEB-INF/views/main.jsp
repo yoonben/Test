@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-${nickName}
+${nickName}<br>
+ 아이디 : ${userId }<br>
+  이름 : ${member.mname }<br>
+ 이메일 : ${member.email }<br>
 </body>
 </html>

@@ -80,7 +80,8 @@
 					apiURL += "&state=" + state;
 					session.setAttribute("state", state);
 				%>
-
+				
+				
 				<a href="<%=apiURL%>"><img height="80"
 					src="/resources/img/naver.png" /></a>
 				<!-- 네이버 로그인 end-->

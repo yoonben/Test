@@ -128,10 +128,10 @@ public class LoginController extends CommonRestController {
 				return "/login";
 			}
 			session.setAttribute("member", member);
-			session.setAttribute("userId", member.getId());
-			session.setAttribute("nickName", member.getNickname());
-
-			return "/main";
+	        session.setAttribute("userId", member.getId());
+	        session.setAttribute("nickName", member.getNickname());
+	        
+	        return "redirect:/peco/main";
 
 		} else {
 			System.out.println("======naver회원가입=======");
@@ -188,10 +188,10 @@ public class LoginController extends CommonRestController {
 				return "/login";
 			}
 			session.setAttribute("member", memberVO);
-			session.setAttribute("userId", memberVO.getId());
-			session.setAttribute("nickName", memberVO.getNickname());
-
-			return "/main";
+	        session.setAttribute("userId", memberVO.getId());
+	        session.setAttribute("nickName", memberVO.getNickname());
+	        
+	        return "redirect:/peco/main";
 
 		}
 

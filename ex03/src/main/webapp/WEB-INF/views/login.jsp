@@ -85,6 +85,29 @@
 					src="/resources/img/naver.png" /></a>
 				<!-- 네이버 로그인 end-->
 
+				<!-- 카카오 로그인 -->
+
+					<img alt="카카오로그인"
+						src="/resources/img/certi_kakao_login.png"
+						onclick="loginWithKakao()">
+
+				<script type="text/javascript"
+					src="https://developers.kakao.com/sdk/js/kakao.min.js"
+					charset="utf-8"></script>
+				<script type="text/javascript">
+					$(document).ready(function() {
+						Kakao.init('script앱키 입력');
+						Kakao.isInitialized();
+					});
+
+					function loginWithKakao() {
+						Kakao.Auth
+								.authorize({
+									redirectUri : 'http://localhost:8080/peco/kakao_callback'
+								}); // 등록한 리다이렉트uri 입력
+					}
+				</script>
+				<!-- 카카오 로그인 End -->
 			</form>
 			<!-- ***** login End ***** -->
 
@@ -160,13 +183,14 @@
 
 				<c:if test="${not empty showSignupForm}">
 					<div class="form-floating">
-						<input type="hidden" class="form-control" id="signUpPw" value="null">
-						<label for="signUpPw">Password</label>
+						<input type="hidden" class="form-control" id="signUpPw"
+							value="null"> <label for="signUpPw">Password</label>
 					</div>
 
 					<div class="form-floating">
-						<input type="hidden" class="form-control" id="pwCheck" value="null">
-						<label for="signUpPwCheck">Password Check</label>
+						<input type="hidden" class="form-control" id="pwCheck"
+							value="null"> <label for="signUpPwCheck">Password
+							Check</label>
 					</div>
 				</c:if>
 
@@ -191,7 +215,7 @@
 
 				<c:if test="${not empty showSignupForm}">
 					<div class="form-floating">
-						<input type=""hidden"" id="email" value=${apiEmail }>
+						<input type="" hidden"" id="email" value=${apiEmail }>
 					</div>
 				</c:if>
 

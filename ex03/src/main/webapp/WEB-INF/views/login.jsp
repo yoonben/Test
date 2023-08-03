@@ -96,7 +96,7 @@
 					charset="utf-8"></script>
 				<script type="text/javascript">
 					$(document).ready(function() {
-						Kakao.init('script앱키 입력');
+						Kakao.init('5b1adb5037f620021df4924bf30ee375');
 						Kakao.isInitialized();
 					});
 

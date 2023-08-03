@@ -20,7 +20,7 @@ import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
-public class KakaoServiceImpl {
+public class KakaoService {
      public String getReturnAccessToken(String code) {
          String access_token = "";
          String refresh_token = "";
@@ -39,8 +39,8 @@ public class KakaoServiceImpl {
              BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
              StringBuilder sb = new StringBuilder();
              sb.append("grant_type=authorization_code");
-             sb.append("&client_id=REST API 앱키 입력");  //앱 KEY VALUE
-             sb.append("&redirect_uri=http://localhost:8080/kakao_callback"); // 앱 CALLBACK 경로
+             sb.append("&client_id=bcf23095cf91891ca693bf54aab993be");  //앱 KEY VALUE
+             sb.append("&redirect_uri=http://localhost:8080/peco/kakao_callback"); // 앱 CALLBACK 경로
              sb.append("&code=" + code);
              bw.write(sb.toString());
              bw.flush();
@@ -99,14 +99,12 @@ public class KakaoServiceImpl {
                  JsonParser parser = new JsonParser();
                  JsonElement element = parser.parse(result);
                  log.warn("element:: " + element);
-                 JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
+                
                  JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
                  log.warn("id:: "+element.getAsJsonObject().get("id").getAsString());
                  String id = element.getAsJsonObject().get("id").getAsString();
-                 String nickname = properties.getAsJsonObject().get("nickname").getAsString();
                  String email = kakao_account.getAsJsonObject().get("email").getAsString();
                  log.warn("email:: " + email);
-                 resultMap.put("nickname", nickname);
                  resultMap.put("id", id);
                  resultMap.put("email", email); 
 
